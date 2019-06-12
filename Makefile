@@ -1,4 +1,4 @@
-LSDL=`pkg-config --libs sdl2`
+LSDL=`pkg-config --libs sdl2 glew`
 INCLUDES=include/
 main:
 			mkdir -p build

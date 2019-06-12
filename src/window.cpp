@@ -1,15 +1,18 @@
 #include <window.hpp>
 #include <iostream>
 
+#include <GL/glew.h>
+
 
 static const uint16_t HEIGHT = 600;
 static const uint16_t WIDTH = 600;
 
 
+// TODO Refactor
 Window::Window()
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-    std::cerr << "Init error" << std::endl;
+    throw "Failed to initialize SDL.";
   }
 
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -23,11 +26,23 @@ Window::Window()
 
   if (!window) {
     std::cerr << "Window could not be created" << std::endl;
+    SDL_Quit();
+    throw "Window could not be created";
   }
 
   // Give window to GPU to control - TODO does this need error checking?
   glContext = SDL_GL_CreateContext(window);
+
+  GLenum status = glewInit();
+
+  if (status != GLEW_OK) {
+    std::cerr << "GLEW failed to initialize" << std::endl;
+  }
+
+  glClearColor(0.0f, 0.15f, 0.3f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
 }
+
 
 Window::~Window()
 {
@@ -35,6 +50,7 @@ Window::~Window()
   SDL_DestroyWindow(window);
   SDL_Quit();
 }
+
 
 void Window::swap_buffers()
 {

@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 
+
 class Window {
 public:
   Window();
