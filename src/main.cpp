@@ -1,11 +1,16 @@
 #include <iostream>
 #include <cstdint>
 
-static const uint16_t HEIGHT = 600;
-static const uint16_t WIDTH = 600;
+#include <SDL2/SDL.h>
+
+#include <window.hpp>
 
 int main(int argc, char *argv[])
 {
   std::cerr << "Starting..." << std::endl;
+
+  Window window = Window();
+  window.swap_buffers();
+
   return 0;
 }
