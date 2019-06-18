@@ -16,7 +16,15 @@ SimpleMesh::SimpleMesh(Vertex* vertices, size_t num_vertices)
                vertices,
                GL_STATIC_DRAW);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
+
+  glEnableVertexAttribArray(1);
+  glVertexAttribPointer(1,
+                        2,
+                        GL_FLOAT,
+                        GL_FALSE,
+                        sizeof(GLfloat) * 5,
+                        (GLvoid*)(sizeof(GLfloat) * 3));
 
   // Stop working on vertex_array_object
   glBindVertexArray(0);

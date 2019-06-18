@@ -6,12 +6,14 @@
 class Vertex
 {
 public:
-  Vertex(const glm::vec3& pos)
+  Vertex(const glm::vec3& pos, const glm::vec2& text_coord)
     : pos(pos)
+    , text_coord(text_coord)
   {}
 
 private:
   glm::vec3 pos;
+  glm::vec2 text_coord;
 };
 
 class SimpleMesh

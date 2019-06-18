@@ -2,5 +2,5 @@ let
    pkgs = import <nixpkgs> {};
 in pkgs.stdenv.mkDerivation rec {
   name = "opengl-toy";
-  buildInputs = [ pkgs.pkg-config pkgs.SDL2 pkgs.glew pkgs.glm pkgs.clang-tools ];
+  buildInputs = [ pkgs.pkg-config pkgs.SDL2 pkgs.glew pkgs.glm pkgs.clang-tools pkgs.gdb ];
 }

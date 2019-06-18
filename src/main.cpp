@@ -5,6 +5,7 @@
 #include <files.hpp>
 #include <mesh.hpp>
 #include <shader.hpp>
+#include <texture.hpp>
 #include <window.hpp>
 
 #include <glm/glm.hpp>
@@ -12,6 +13,7 @@
 int
 main(int argc, char* argv[])
 {
+  assert(argc > 1);
   std::cerr << "Starting..." << std::endl;
 
   std::cerr << "MAIN::Reading shaders" << std::endl;
@@ -21,9 +23,9 @@ main(int argc, char* argv[])
   Window window = Window();
 
   // Define a triangle
-  Vertex vertices[] = { Vertex(glm::vec3(-0.5, -0.5, 0)),
-                        Vertex(glm::vec3(0, 0.5, 0)),
-                        Vertex(glm::vec3(0.5, -0.5, 0)) };
+  Vertex vertices[] = { Vertex(glm::vec3(-0.5, -0.5, 0), glm::vec2(0.0, 0.0)),
+                        Vertex(glm::vec3(0, 0.5, 0), glm::vec2(0.5, 1.0)),
+                        Vertex(glm::vec3(0.5, -0.5, 0), glm::vec2(1.0, 0.0)) };
 
   SimpleMesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
 
@@ -33,8 +35,11 @@ main(int argc, char* argv[])
   ShaderPipeline pipeline =
     ShaderPipeline::make_shader(vertex_shader, frag_shader).value();
 
+  Texture t(argv[1]);
+
   std::cerr << "MAIN::Binding shaders" << std::endl;
   pipeline.bind();
+  t.bind(0);
 
   // Draw it
   mesh.draw();

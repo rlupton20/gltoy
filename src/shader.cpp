@@ -45,6 +45,7 @@ make_program(GLuint vertshader, GLuint fragshader, std::ostream& errstream)
   glAttachShader(program, fragshader);
 
   glBindAttribLocation(program, 0, "position");
+  glBindAttribLocation(program, 1, "text_coord");
 
   glLinkProgram(program);
   const bool link_errors = checkForErrors(
