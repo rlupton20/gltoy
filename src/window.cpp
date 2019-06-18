@@ -1,12 +1,10 @@
-#include <window.hpp>
 #include <iostream>
+#include <window.hpp>
 
 #include <GL/glew.h>
 
-
 static const uint16_t HEIGHT = 600;
 static const uint16_t WIDTH = 600;
-
 
 // TODO Refactor
 Window::Window()
@@ -22,7 +20,12 @@ Window::Window()
   SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-  window = SDL_CreateWindow("opengl", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
+  window = SDL_CreateWindow("opengl",
+                            SDL_WINDOWPOS_UNDEFINED,
+                            SDL_WINDOWPOS_UNDEFINED,
+                            WIDTH,
+                            HEIGHT,
+                            SDL_WINDOW_OPENGL);
 
   if (!window) {
     std::cerr << "Window could not be created" << std::endl;
@@ -43,7 +46,6 @@ Window::Window()
   glClear(GL_COLOR_BUFFER_BIT);
 }
 
-
 Window::~Window()
 {
   SDL_GL_DeleteContext(glContext);
@@ -51,8 +53,8 @@ Window::~Window()
   SDL_Quit();
 }
 
-
-void Window::swap_buffers()
+void
+Window::swap_buffers()
 {
   SDL_GL_SwapWindow(window);
 }

@@ -1,21 +1,23 @@
 #pragma once
 
-
-#include <glm/glm.hpp>
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 
-
-class Vertex {
+class Vertex
+{
 public:
-  Vertex(const glm::vec3 &pos): pos(pos) {}
+  Vertex(const glm::vec3& pos)
+    : pos(pos)
+  {}
+
 private:
   glm::vec3 pos;
 };
 
-
-class SimpleMesh {
+class SimpleMesh
+{
 public:
-  SimpleMesh(Vertex *vertices, size_t num_vertices);
+  SimpleMesh(Vertex* vertices, size_t num_vertices);
   virtual ~SimpleMesh();
 
   void draw();

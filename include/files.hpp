@@ -2,8 +2,5 @@
 
 #include <string>
 
-
-std::string read_file_to_string(const char *const filename);
-
-
-
+std::string
+read_file_to_string(const char* const filename);

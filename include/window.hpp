@@ -2,8 +2,8 @@
 
 #include <SDL2/SDL.h>
 
-
-class Window {
+class Window
+{
 public:
   Window();
   virtual ~Window();
@@ -15,6 +15,6 @@ private:
   Window(Window&&);
   void operator=(Window&);
 
-  SDL_Window *window;
+  SDL_Window* window;
   SDL_GLContext glContext;
 };

@@ -1,15 +1,16 @@
-#include <iostream>
 #include <cstdint>
+#include <iostream>
 #include <unistd.h>
 
-#include <window.hpp>
+#include <files.hpp>
 #include <mesh.hpp>
 #include <shader.hpp>
-#include <files.hpp>
+#include <window.hpp>
 
 #include <glm/glm.hpp>
 
-int main(int argc, char *argv[])
+int
+main(int argc, char* argv[])
 {
   std::cerr << "Starting..." << std::endl;
 
@@ -20,18 +21,17 @@ int main(int argc, char *argv[])
   Window window = Window();
 
   // Define a triangle
-  Vertex vertices[] = {
-    Vertex(glm::vec3(-0.5,-0.5,0)),
-    Vertex(glm::vec3(0,0.5,0)),
-    Vertex(glm::vec3(0.5,-0.5,0))
-  };
+  Vertex vertices[] = { Vertex(glm::vec3(-0.5, -0.5, 0)),
+                        Vertex(glm::vec3(0, 0.5, 0)),
+                        Vertex(glm::vec3(0.5, -0.5, 0)) };
 
-  SimpleMesh mesh(vertices, sizeof(vertices)/sizeof(vertices[0]));
+  SimpleMesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
 
   std::cerr << "MAIN::Compiling shaders" << std::endl;
   GLuint vertex_shader = create_shader(vertshader, GL_VERTEX_SHADER).value();
   GLuint frag_shader = create_shader(fragshader, GL_FRAGMENT_SHADER).value();
-  ShaderPipeline pipeline = ShaderPipeline::make_shader(vertex_shader, frag_shader).value();
+  ShaderPipeline pipeline =
+    ShaderPipeline::make_shader(vertex_shader, frag_shader).value();
 
   std::cerr << "MAIN::Binding shaders" << std::endl;
   pipeline.bind();
