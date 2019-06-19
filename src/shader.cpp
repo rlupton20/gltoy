@@ -116,8 +116,7 @@ ShaderPipeline::make_shader(GLuint vertshader, GLuint fragshader)
 {
   const auto program = make_program(vertshader, fragshader);
   if (program) {
-    ShaderPipeline shader(program.value(), vertshader, fragshader);
-    return std::move(shader);
+    return ShaderPipeline(program.value(), vertshader, fragshader);
   } else {
     return {};
   }
