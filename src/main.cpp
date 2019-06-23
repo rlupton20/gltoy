@@ -13,7 +13,13 @@
 int
 main(int argc, char* argv[])
 {
-  assert(argc > 1);
+  if (argc < 2) {
+    std::cerr << "Expected a texture filename as input" << std::endl;
+    return 1;
+  }
+
+  const char* const texture_file = argv[1];
+
   std::cerr << "Starting..." << std::endl;
 
   std::cerr << "MAIN::Reading shaders" << std::endl;
@@ -35,11 +41,11 @@ main(int argc, char* argv[])
   ShaderPipeline pipeline =
     ShaderPipeline::make_shader(vertex_shader, frag_shader).value();
 
-  Texture t(argv[1]);
+  Texture texture(texture_file);
 
   std::cerr << "MAIN::Binding shaders" << std::endl;
   pipeline.bind();
-  t.bind(0);
+  texture.bind(0);
 
   // Draw it
   mesh.draw();
