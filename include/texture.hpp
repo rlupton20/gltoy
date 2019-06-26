@@ -2,17 +2,21 @@
 
 #include <GL/glew.h>
 
+class StbImage;
+
 class Texture
 {
 public:
-  Texture(const char* const filename);
+  Texture(Texture&&);
   virtual ~Texture();
+
+  static std::optional<Texture> from_file(const char* const filename);
 
   void bind(uint32_t unit);
 
 private:
+  Texture(StbImage&& image);
   Texture(Texture&);
-  Texture(Texture&&);
   void operator=(Texture&);
 
   GLuint texture;

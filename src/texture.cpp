@@ -56,12 +56,23 @@ private:
   int32_t _width, _height;
 };
 
-Texture::Texture(const char* const filename)
+std::optional<Texture>
+Texture::from_file(const char* const filename)
+{
+  auto image = StbImage::from_file(filename);
+
+  if (!image) {
+    return {};
+  } else {
+    return Texture(std::move(image.value()));
+  }
+}
+
+Texture::Texture(StbImage&& image)
   : texture(0)
 {
-  auto image = StbImage::from_file(filename).value();
-
   glGenTextures(1, &texture);
+  assert(texture);
   glBindTexture(GL_TEXTURE_2D, texture);
 
   // How should we wrap the texture?
@@ -82,9 +93,19 @@ Texture::Texture(const char* const filename)
                image.bytes());
 }
 
+Texture::Texture(Texture&& rhs)
+  : texture(rhs.texture)
+{
+  if (this != &rhs) {
+    rhs.texture = 0;
+  }
+}
+
 Texture::~Texture()
 {
-  glDeleteTextures(1, &texture);
+  if (texture) {
+    glDeleteTextures(1, &texture);
+  }
 }
 
 void

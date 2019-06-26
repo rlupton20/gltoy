@@ -41,7 +41,7 @@ main(int argc, char* argv[])
   ShaderPipeline pipeline =
     ShaderPipeline::make_shader(vertex_shader, frag_shader).value();
 
-  Texture texture(texture_file);
+  auto texture = Texture::from_file(texture_file).value();
 
   std::cerr << "MAIN::Binding shaders" << std::endl;
   pipeline.bind();
