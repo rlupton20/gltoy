@@ -1,5 +1,5 @@
 LSDL=`pkg-config --libs sdl2 glew`
-INCLUDES=-Iinclude/ -Ilibs/
+INCLUDES=-Iinclude/ -I$(STB_HEADER_PATH)
 CPPFLAGS=-Wall -std=c++17 $(INCLUDES)
 BUILDDIR=build/
 CPP=g++
