@@ -42,8 +42,7 @@ Window::Window()
     std::cerr << "GLEW failed to initialize" << std::endl;
   }
 
-  glClearColor(0.0f, 0.15f, 0.3f, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
+  clear();
 }
 
 Window::~Window()
@@ -57,4 +56,11 @@ void
 Window::swap_buffers()
 {
   SDL_GL_SwapWindow(window);
+}
+
+void
+Window::clear(float r, float g, float b, float alpha) const
+{
+  glClearColor(r, g, b, alpha);
+  glClear(GL_COLOR_BUFFER_BIT);
 }

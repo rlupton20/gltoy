@@ -9,6 +9,10 @@ public:
   virtual ~Window();
 
   void swap_buffers();
+  void clear(float r = 0.0f,
+             float g = 0.0f,
+             float b = 0.0f,
+             float alpha = 1.0f) const;
 
 private:
   Window(Window&);

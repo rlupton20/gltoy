@@ -1,6 +1,7 @@
 #include <functional>
 
 #include <shader.hpp>
+#include <transform.hpp>
 
 std::optional<GLuint>
 make_program(GLuint vshader,
@@ -80,16 +81,19 @@ make_program(GLuint vertshader, GLuint fragshader, std::ostream& errstream)
 
 ShaderPipeline::ShaderPipeline(GLuint program,
                                GLuint vertshader,
-                               GLuint fragshader)
+                               GLuint fragshader,
+                               GLuint transform)
   : program(program)
   , vertex_shader(vertshader)
   , fragment_shader(fragshader)
+  , transform(transform)
 {}
 
 ShaderPipeline::ShaderPipeline(ShaderPipeline&& rhs)
   : program(rhs.program)
   , vertex_shader(rhs.vertex_shader)
   , fragment_shader(rhs.fragment_shader)
+  , transform(rhs.transform)
 {
   if (this != &rhs)
     rhs.program = 0;
@@ -110,6 +114,9 @@ void
 ShaderPipeline::bind()
 {
   glUseProgram(program);
+  // The transform uniform needs to be set - set it to the trivial
+  // transform
+  set_transform(identity());
 }
 
 std::optional<ShaderPipeline>
@@ -117,10 +124,22 @@ ShaderPipeline::make_shader(GLuint vertshader, GLuint fragshader)
 {
   const auto program = make_program(vertshader, fragshader);
   if (program) {
-    return ShaderPipeline(program.value(), vertshader, fragshader);
+    const auto transform = glGetUniformLocation(program.value(), "transform");
+
+    if (transform < 0) {
+      return {};
+    }
+
+    return ShaderPipeline(program.value(), vertshader, fragshader, transform);
   } else {
     return {};
   }
+}
+
+void
+ShaderPipeline::set_transform(const glm::mat4&& model_matrix) const
+{
+  glUniformMatrix4fv(transform, 1, GL_FALSE, &model_matrix[0][0]);
 }
 
 bool

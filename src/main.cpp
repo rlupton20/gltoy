@@ -6,6 +6,7 @@
 #include <mesh.hpp>
 #include <shader.hpp>
 #include <texture.hpp>
+#include <transform.hpp>
 #include <window.hpp>
 
 #include <glm/glm.hpp>
@@ -47,11 +48,13 @@ main(int argc, char* argv[])
   pipeline.bind();
   texture.bind(0);
 
-  // Draw it
-  mesh.draw();
-
-  window.swap_buffers();
-  sleep(5);
+  for (float angle = 0.0; angle < 20; angle += 0.1) {
+    // Draw it
+    window.clear(0.0f, 0.15f, 0.3f, 1.0f);
+    mesh.draw();
+    pipeline.set_transform(rotate(std::move(angle)));
+    window.swap_buffers();
+  }
 
   return 0;
 }

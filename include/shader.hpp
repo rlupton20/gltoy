@@ -5,6 +5,7 @@
 #include <string>
 
 #include <GL/glew.h>
+#include <glm/gtx/transform.hpp>
 
 std::optional<GLuint>
 create_shader(const std::string& text,
@@ -22,8 +23,13 @@ public:
 
   void bind();
 
+  void set_transform(const glm::mat4&& model) const;
+
 private:
-  ShaderPipeline(GLuint program, GLuint vertshader, GLuint fragshader);
+  ShaderPipeline(GLuint program,
+                 GLuint vertshader,
+                 GLuint fragshader,
+                 GLuint transform);
   // Hide the various copy operators
   void operator=(ShaderPipeline& rhs);
   ShaderPipeline(ShaderPipeline& rhs);
@@ -31,4 +37,5 @@ private:
   GLuint program;
   GLuint vertex_shader;
   GLuint fragment_shader;
+  GLuint transform;
 };

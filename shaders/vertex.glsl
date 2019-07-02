@@ -5,8 +5,10 @@ attribute vec2 text_coord;
 
 varying vec2 text_coord_pipeline;
 
+uniform mat4 transform;
+
 void main()
 {
-    gl_Position = vec4(position, 1.0);
+    gl_Position = transform * vec4(position, 1.0);
     text_coord_pipeline = text_coord;
 }
