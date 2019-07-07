@@ -33,12 +33,21 @@ main(int argc, char* argv[])
 
   Window window = Window(width, height);
 
-  // Define a triangle
-  Vertex vertices[] = { Vertex(glm::vec3(-0.5, -0.5, 0), glm::vec2(0.0, 0.0)),
-                        Vertex(glm::vec3(0, 0.5, 0), glm::vec2(0.5, 1.0)),
-                        Vertex(glm::vec3(0.5, -0.5, 0), glm::vec2(1.0, 0.0)) };
+  // Define a simple tetrahedron
+  /* clang-format off */
+  Vertex vertices[] = { Vertex(glm::vec3(-0.5, -0.5, -0.5), glm::vec2(0.0, 0.0)),
+                        Vertex(glm::vec3(-0.5, 0.5, -0.5), glm::vec2(0.0, 1.0)),
+                        Vertex(glm::vec3(0.5, -0.5, -0.5), glm::vec2(1.0, 0.0)),
+                        Vertex(glm::vec3(0.5, 0.5, -0.5), glm::vec2(1.0, 1.0)),
+                        Vertex(glm::vec3(0.0, 0.0, 0.0), glm::vec2(0.5, 0.5)) };
 
-  unsigned int indices[] = { 0, 1, 2 };
+  unsigned int indices[] = { 0, 1, 2, 1, 2, 3,
+                             0, 1, 4,
+                             0, 2, 4,
+                             1, 3, 4,
+                             2, 3, 4
+  };
+  /* clang-format on */
 
   SimpleMesh mesh(vertices,
                   sizeof(vertices) / sizeof(vertices[0]),
