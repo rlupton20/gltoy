@@ -18,6 +18,7 @@ Window::Window(const uint16_t width, const uint16_t height)
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
   window = SDL_CreateWindow("opengl",
@@ -42,6 +43,8 @@ Window::Window(const uint16_t width, const uint16_t height)
     std::cerr << "GLEW failed to initialize" << std::endl;
   }
 
+  glEnable(GL_DEPTH_TEST);
+
   clear();
 }
 
@@ -62,5 +65,5 @@ void
 Window::clear(float r, float g, float b, float alpha) const
 {
   glClearColor(r, g, b, alpha);
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
