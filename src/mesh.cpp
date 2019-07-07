@@ -1,5 +1,9 @@
 #include <mesh.hpp>
 
+template<typename T>
+size_t
+array_size(const std::vector<T>& v);
+
 SimpleMesh::SimpleMesh(const std::vector<Vertex>& vertices,
                        const std::vector<unsigned int>& indices)
   : draw_count(indices.size())
@@ -18,10 +22,8 @@ SimpleMesh::SimpleMesh(const std::vector<Vertex>& vertices,
   glBindBuffer(GL_ARRAY_BUFFER, vertex_array_buffer);
 
   // Setup vertex position data
-  glBufferData(GL_ARRAY_BUFFER,
-               vertices.size() * sizeof(std::vector<Vertex>::value_type),
-               vertices.data(),
-               GL_STATIC_DRAW);
+  glBufferData(
+    GL_ARRAY_BUFFER, array_size(vertices), vertices.data(), GL_STATIC_DRAW);
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(
     0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * VERTEX_LENGTH, 0);
@@ -48,7 +50,7 @@ SimpleMesh::SimpleMesh(const std::vector<Vertex>& vertices,
   glGenBuffers(1, &vertex_element_buffer);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertex_element_buffer);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-               indices.size() * sizeof(std::vector<unsigned int>::value_type),
+               array_size(indices),
                indices.data(),
                GL_STATIC_DRAW);
 
@@ -68,4 +70,11 @@ SimpleMesh::draw()
   glBindVertexArray(vertex_array_object);
   glDrawElements(GL_TRIANGLES, draw_count, GL_UNSIGNED_INT, 0);
   glBindVertexArray(0);
+}
+
+template<typename T>
+size_t
+array_size(const std::vector<T>& v)
+{
+  return v.size() * sizeof(T);
 }
