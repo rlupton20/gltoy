@@ -1,10 +1,8 @@
 #include <mesh.hpp>
 
-SimpleMesh::SimpleMesh(const Vertex* const vertices,
-                       size_t num_vertices,
-                       const unsigned int* const indices,
-                       size_t num_indices)
-  : draw_count(num_indices)
+SimpleMesh::SimpleMesh(const std::vector<Vertex>& vertices,
+                       const std::vector<unsigned int>& indices)
+  : draw_count(indices.size())
 {
   static const size_t VERTEX_LENGTH = 8;
   static const size_t TEXTURE_OFFSET = 3;
@@ -21,8 +19,8 @@ SimpleMesh::SimpleMesh(const Vertex* const vertices,
 
   // Setup vertex position data
   glBufferData(GL_ARRAY_BUFFER,
-               num_vertices * sizeof(vertices[0]),
-               vertices,
+               vertices.size() * sizeof(std::vector<Vertex>::value_type),
+               vertices.data(),
                GL_STATIC_DRAW);
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(
@@ -50,8 +48,8 @@ SimpleMesh::SimpleMesh(const Vertex* const vertices,
   glGenBuffers(1, &vertex_element_buffer);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertex_element_buffer);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-               num_indices * sizeof(indices[0]),
-               &indices[0],
+               indices.size() * sizeof(std::vector<unsigned int>::value_type),
+               indices.data(),
                GL_STATIC_DRAW);
 
   // Stop working on vertex_array_object

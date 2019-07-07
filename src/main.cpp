@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <iostream>
 #include <unistd.h>
+#include <vector>
 
 #include <camera.hpp>
 #include <files.hpp>
@@ -35,31 +36,40 @@ main(int argc, char* argv[])
 
   // Define a simple octahedron
   /* clang-format off */
-  Vertex vertices[] = {
-                       // Square cross-section
-                       Vertex(glm::vec3(-0.5, -0.5, -0.5), glm::vec2(0.0, 0.0), glm::vec3(-0.71, -0.71, 0)),
-                       Vertex(glm::vec3(-0.5, 0.5, -0.5), glm::vec2(0.0, 1.0), glm::vec3(-0.71, 0.71, 0)),
-                       Vertex(glm::vec3(0.5, -0.5, -0.5), glm::vec2(1.0, 0.0), glm::vec3(0.71, -0.71, 0)),
-                       Vertex(glm::vec3(0.5, 0.5, -0.5), glm::vec2(1.0, 1.0), glm::vec3(0.71, 0.71, 0)),
-                       // Points
-                       Vertex(glm::vec3(0.0, 0.0, 0.0), glm::vec2(0.5, 0.5), glm::vec3(0,0,1)),
-                       Vertex(glm::vec3(0.0, 0.0, -1.0), glm::vec2(0.5, 0.5), glm::vec3(0,0,-1))
+  std::vector<Vertex> vertices = {
+    // Square cross-section
+    Vertex(glm::vec3(-0.5, -0.5, -0.5),
+           glm::vec2(0.0, 0.0),
+           glm::vec3(-0.71, -0.71, 0)),
+    Vertex(glm::vec3(-0.5, 0.5, -0.5),
+           glm::vec2(0.0, 1.0),
+           glm::vec3(-0.71, 0.71, 0)),
+    Vertex(glm::vec3(0.5, -0.5, -0.5),
+           glm::vec2(1.0, 0.0),
+           glm::vec3(0.71, -0.71, 0)),
+    Vertex(glm::vec3(0.5, 0.5, -0.5),
+           glm::vec2(1.0, 1.0),
+           glm::vec3(0.71, 0.71, 0)),
+    // Points
+    Vertex(glm::vec3(0.0, 0.0, 0.0),
+           glm::vec2(0.5, 0.5),
+           glm::vec3(0, 0, 1)),
+    Vertex(glm::vec3(0.0, 0.0, -1.0),
+           glm::vec2(0.5, 0.5),
+           glm::vec3(0, 0, -1))
   };
 
-  unsigned int indices[] = { 0, 1, 4,
-                             0, 2, 4,
-                             1, 3, 4,
-                             2, 3, 4,
-                             0, 1, 5,
-                             0, 2, 5,
-                             1, 3, 5,
-                             2, 3, 5 };
+  std::vector<unsigned int> indices = { 0, 1, 4,
+                                        0, 2, 4,
+                                        1, 3, 4,
+                                        2, 3, 4,
+                                        0, 1, 5,
+                                        0, 2, 5,
+                                        1, 3, 5,
+                                        2, 3, 5 };
   /* clang-format on */
 
-  SimpleMesh mesh(vertices,
-                  sizeof(vertices) / sizeof(vertices[0]),
-                  indices,
-                  sizeof(indices) / sizeof(indices[0]));
+  SimpleMesh mesh(vertices, indices);
 
   std::cerr << "MAIN::Compiling shaders" << std::endl;
   GLuint vertex_shader = create_shader(vertshader, GL_VERTEX_SHADER).value();

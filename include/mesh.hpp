@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
@@ -23,10 +25,8 @@ private:
 class SimpleMesh
 {
 public:
-  SimpleMesh(const Vertex* const vertices,
-             size_t num_vertices,
-             const unsigned int* const indices,
-             size_t num_indices);
+  SimpleMesh(const std::vector<Vertex>& vertices,
+             const std::vector<unsigned int>& indices);
   virtual ~SimpleMesh();
 
   void draw();
