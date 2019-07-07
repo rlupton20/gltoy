@@ -4,10 +4,10 @@
 #include <GL/glew.h>
 
 static const uint16_t HEIGHT = 600;
-static const uint16_t WIDTH = 600;
+static const uint16_t WIDTH = 800;
 
 // TODO Refactor
-Window::Window()
+Window::Window(const uint16_t width, const uint16_t height)
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
     throw "Failed to initialize SDL.";
@@ -23,8 +23,8 @@ Window::Window()
   window = SDL_CreateWindow("opengl",
                             SDL_WINDOWPOS_UNDEFINED,
                             SDL_WINDOWPOS_UNDEFINED,
-                            WIDTH,
-                            HEIGHT,
+                            width,
+                            height,
                             SDL_WINDOW_OPENGL);
 
   if (!window) {

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <unistd.h>
 
+#include <camera.hpp>
 #include <files.hpp>
 #include <mesh.hpp>
 #include <shader.hpp>
@@ -14,6 +15,9 @@
 int
 main(int argc, char* argv[])
 {
+  const uint16_t width = 800;
+  const uint16_t height = 600;
+
   if (argc < 2) {
     std::cerr << "Expected a texture filename as input" << std::endl;
     return 1;
@@ -27,7 +31,7 @@ main(int argc, char* argv[])
   std::string vertshader = read_file_to_string("shaders/vertex.glsl");
   std::string fragshader = read_file_to_string("shaders/fragment.glsl");
 
-  Window window = Window();
+  Window window = Window(width, height);
 
   // Define a triangle
   Vertex vertices[] = { Vertex(glm::vec3(-0.5, -0.5, 0), glm::vec2(0.0, 0.0)),
@@ -51,8 +55,15 @@ main(int argc, char* argv[])
   for (float angle = 0.0; angle < 20; angle += 0.1) {
     // Draw it
     window.clear(0.0f, 0.15f, 0.3f, 1.0f);
+
+    const auto perspective = Camera::make_perspective_matrix(
+      70.0f, Camera::aspect_ratio(width, height), 0.01f, 500.0f);
+    const auto view = Camera::make_view_matrix(
+      glm::vec3(0, 0, -2), glm::vec3(0, 0, 1), glm::vec3(0, 1, 0));
+    const auto matrix = perspective * view * rotate(std::move(angle));
+
+    pipeline.set_transform(std::move(matrix));
     mesh.draw();
-    pipeline.set_transform(rotate(std::move(angle)));
     window.swap_buffers();
   }
 

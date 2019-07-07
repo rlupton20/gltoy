@@ -5,7 +5,7 @@
 class Window
 {
 public:
-  Window();
+  Window(const uint16_t width, const uint16_t height);
   virtual ~Window();
 
   void swap_buffers();
