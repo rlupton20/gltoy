@@ -6,6 +6,10 @@ SimpleMesh::SimpleMesh(const Vertex* const vertices,
                        size_t num_indices)
   : draw_count(num_indices)
 {
+  static const size_t VERTEX_LENGTH = 8;
+  static const size_t TEXTURE_OFFSET = 3;
+  static const size_t NORMAL_OFFSET = 5;
+
   // Generate one vertex array, and store its name in vertex_array_object
   glGenVertexArrays(1, &vertex_array_object);
 
@@ -14,21 +18,35 @@ SimpleMesh::SimpleMesh(const Vertex* const vertices,
 
   glGenBuffers(1, &vertex_array_buffer);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_array_buffer);
+
+  // Setup vertex position data
   glBufferData(GL_ARRAY_BUFFER,
                num_vertices * sizeof(vertices[0]),
                vertices,
                GL_STATIC_DRAW);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
+  glVertexAttribPointer(
+    0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * VERTEX_LENGTH, 0);
 
+  // Setup vertex texture data
   glEnableVertexAttribArray(1);
   glVertexAttribPointer(1,
                         2,
                         GL_FLOAT,
                         GL_FALSE,
-                        sizeof(GLfloat) * 5,
-                        (GLvoid*)(sizeof(GLfloat) * 3));
+                        sizeof(GLfloat) * VERTEX_LENGTH,
+                        (GLvoid*)(sizeof(GLfloat) * TEXTURE_OFFSET));
 
+  // Setup vertex normal data
+  glEnableVertexAttribArray(2);
+  glVertexAttribPointer(2,
+                        3,
+                        GL_FLOAT,
+                        GL_FALSE,
+                        sizeof(GLfloat) * VERTEX_LENGTH,
+                        (GLvoid*)(sizeof(GLfloat) * NORMAL_OFFSET));
+
+  // Generate a buffer for vertex elements
   glGenBuffers(1, &vertex_element_buffer);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertex_element_buffer);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER,

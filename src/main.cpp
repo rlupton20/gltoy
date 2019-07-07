@@ -33,20 +33,27 @@ main(int argc, char* argv[])
 
   Window window = Window(width, height);
 
-  // Define a simple tetrahedron
+  // Define a simple octahedron
   /* clang-format off */
-  Vertex vertices[] = { Vertex(glm::vec3(-0.5, -0.5, -0.5), glm::vec2(0.0, 0.0)),
-                        Vertex(glm::vec3(-0.5, 0.5, -0.5), glm::vec2(0.0, 1.0)),
-                        Vertex(glm::vec3(0.5, -0.5, -0.5), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5, 0.5, -0.5), glm::vec2(1.0, 1.0)),
-                        Vertex(glm::vec3(0.0, 0.0, 0.0), glm::vec2(0.5, 0.5)) };
+  Vertex vertices[] = {
+                       // Square cross-section
+                       Vertex(glm::vec3(-0.5, -0.5, -0.5), glm::vec2(0.0, 0.0), glm::vec3(-0.71, -0.71, 0)),
+                       Vertex(glm::vec3(-0.5, 0.5, -0.5), glm::vec2(0.0, 1.0), glm::vec3(-0.71, 0.71, 0)),
+                       Vertex(glm::vec3(0.5, -0.5, -0.5), glm::vec2(1.0, 0.0), glm::vec3(0.71, -0.71, 0)),
+                       Vertex(glm::vec3(0.5, 0.5, -0.5), glm::vec2(1.0, 1.0), glm::vec3(0.71, 0.71, 0)),
+                       // Points
+                       Vertex(glm::vec3(0.0, 0.0, 0.0), glm::vec2(0.5, 0.5), glm::vec3(0,0,1)),
+                       Vertex(glm::vec3(0.0, 0.0, -1.0), glm::vec2(0.5, 0.5), glm::vec3(0,0,-1))
+  };
 
-  unsigned int indices[] = { 0, 1, 2, 1, 2, 3,
-                             0, 1, 4,
+  unsigned int indices[] = { 0, 1, 4,
                              0, 2, 4,
                              1, 3, 4,
-                             2, 3, 4
-  };
+                             2, 3, 4,
+                             0, 1, 5,
+                             0, 2, 5,
+                             1, 3, 5,
+                             2, 3, 5 };
   /* clang-format on */
 
   SimpleMesh mesh(vertices,
@@ -73,7 +80,7 @@ main(int argc, char* argv[])
     const auto perspective = Camera::make_perspective_matrix(
       70.0f, Camera::aspect_ratio(width, height), 0.01f, 500.0f);
     const auto view = Camera::make_view_matrix(
-      glm::vec3(0, 0, -2), glm::vec3(0, 0, 1), glm::vec3(0, 1, 0));
+      glm::vec3(0, 0, -3), glm::vec3(0, 0, 1), glm::vec3(0, 1, 0));
     const auto matrix = perspective * view * rotate(std::move(angle));
 
     pipeline.set_transform(std::move(matrix));
