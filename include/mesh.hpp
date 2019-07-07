@@ -19,7 +19,10 @@ private:
 class SimpleMesh
 {
 public:
-  SimpleMesh(Vertex* vertices, size_t num_vertices);
+  SimpleMesh(const Vertex* const vertices,
+             size_t num_vertices,
+             const unsigned int* const indices,
+             size_t num_indices);
   virtual ~SimpleMesh();
 
   void draw();
@@ -31,5 +34,6 @@ private:
 
   GLuint vertex_array_object;
   GLuint vertex_array_buffer;
+  GLuint vertex_element_buffer;
   size_t draw_count;
 };

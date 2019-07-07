@@ -1,7 +1,10 @@
 #include <mesh.hpp>
 
-SimpleMesh::SimpleMesh(Vertex* vertices, size_t num_vertices)
-  : draw_count(num_vertices)
+SimpleMesh::SimpleMesh(const Vertex* const vertices,
+                       size_t num_vertices,
+                       const unsigned int* const indices,
+                       size_t num_indices)
+  : draw_count(num_indices)
 {
   // Generate one vertex array, and store its name in vertex_array_object
   glGenVertexArrays(1, &vertex_array_object);
@@ -26,6 +29,13 @@ SimpleMesh::SimpleMesh(Vertex* vertices, size_t num_vertices)
                         sizeof(GLfloat) * 5,
                         (GLvoid*)(sizeof(GLfloat) * 3));
 
+  glGenBuffers(1, &vertex_element_buffer);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertex_element_buffer);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+               num_indices * sizeof(indices[0]),
+               &indices[0],
+               GL_STATIC_DRAW);
+
   // Stop working on vertex_array_object
   glBindVertexArray(0);
 }
@@ -40,6 +50,6 @@ void
 SimpleMesh::draw()
 {
   glBindVertexArray(vertex_array_object);
-  glDrawArrays(GL_TRIANGLES, 0, draw_count);
+  glDrawElements(GL_TRIANGLES, draw_count, GL_UNSIGNED_INT, 0);
   glBindVertexArray(0);
 }

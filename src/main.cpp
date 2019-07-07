@@ -38,7 +38,12 @@ main(int argc, char* argv[])
                         Vertex(glm::vec3(0, 0.5, 0), glm::vec2(0.5, 1.0)),
                         Vertex(glm::vec3(0.5, -0.5, 0), glm::vec2(1.0, 0.0)) };
 
-  SimpleMesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+  unsigned int indices[] = { 0, 1, 2 };
+
+  SimpleMesh mesh(vertices,
+                  sizeof(vertices) / sizeof(vertices[0]),
+                  indices,
+                  sizeof(indices) / sizeof(indices[0]));
 
   std::cerr << "MAIN::Compiling shaders" << std::endl;
   GLuint vertex_shader = create_shader(vertshader, GL_VERTEX_SHADER).value();
